@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: httpd-rc
+spec:
+  replicas: 7
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+        - name: httpd
+          image: httpd 
+          resources:
+            limits:
+              cpu: "10m"
+            requests:
+              cpu: "0.15m"
