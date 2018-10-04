@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: centos-bash 
+spec:
+  containers:
+    - name: app
+      image: centos
+      command: ["sleep"]
+      args: ["6000"]
+

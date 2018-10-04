@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: centos-vol-rc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+        - name: centos
+          image: centos 
+          volumeMounts:
+            - mountPath: /test-pd
+              name: test-volume
+          command: ["sleep"]
+          args: ["6000"]
+      volumes:
+        - name: test-volume
+          # This GCE PD must already exist.
+          gcePersistentDisk:
+            pdName: kube-mariadb
+            fsType: ext4
