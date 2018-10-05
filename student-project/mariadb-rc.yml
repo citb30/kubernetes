@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: mariadb-rc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mairadb
+          image: mariadb 
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mariadb-volume
+      volumes:
+        - name: mariadb-volume
+          # This GCE PD must already exist.
+          gcePersistentDisk:
+            pdName: kube-mariadb
+            fsType: ext4
+...
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mariadb-service
+spec:
+  selector:
+    app: mariadb
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+...
