@@ -2,36 +2,34 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: tomcat-rc
+  name: httpd-rc
 spec:
   replicas: 1 
   selector:
     matchLabels:
-      app: tomcat
+      app: httpd
   template:
     metadata:
       labels:
-        app: tomcat
+        app: httpd
     spec:
       containers:
-        - name: tomcat
-          image: raghudevops30/studentapp:v1 
-          env: 
-            - name: DB_IP
-              value: mariadb-service
+        - name: httpd
+          image: raghudevops30/studentweb:v1 
+          imagePullPolicy: Always
 ...
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: tomcat-service
+  name: web-service
 spec:
   selector:
-    app: tomcat
+    app: httpd 
   ports:
   - protocol: TCP
-    port: 8080
-    targetPort: 8080
+    port: 80
+    targetPort: 80
   type: LoadBalancer
 ...
