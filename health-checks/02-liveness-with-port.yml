@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: live2
+spec:
+  containers:
+    - name: centos
+      image: raghudevops30/liveport
+      livenessProbe:
+        tcpSocket:
+          port: 3000
+        initialDelaySeconds: 5
+        periodSeconds: 5 

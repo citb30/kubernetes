@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: live4
+spec:
+  containers:
+    - name: centos
+      image: raghudevops30/livehttp
+      readinessProbe:
+        httpGet:
+          path: /health
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 5 
